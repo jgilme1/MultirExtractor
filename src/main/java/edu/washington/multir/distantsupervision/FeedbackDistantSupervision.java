@@ -533,6 +533,12 @@ public class FeedbackDistantSupervision {
 					}
 				}
 			}
+			else{
+				return false;
+			}
+		}
+		else{
+			return false;
 		}
 
 		
@@ -718,27 +724,25 @@ public class FeedbackDistantSupervision {
 			System.out.println("link2 = " + arg2Id);
 		}
 
-		if((!arg1Id.startsWith("MID")) && (!arg2Id.startsWith("MID"))){
-			if(print){
-				Map<String,List<Pair<String,String>>> m =KB.getEntityPairRelationMap();
-				if(m.containsKey(arg1Id)){
-					List<Pair<String,String>> relations = m.get(arg1Id);
-					for(Pair<String,String> relation : relations){
-						System.out.println(relation.first + "\t" + relation.second);
-					}
+		if(print){
+			Map<String,List<Pair<String,String>>> m =KB.getEntityPairRelationMap();
+			if(m.containsKey(arg1Id)){
+				List<Pair<String,String>> relations = m.get(arg1Id);
+				for(Pair<String,String> relation : relations){
+					System.out.println(relation.first + "\t" + relation.second);
 				}
 			}
-			
-			if(KB.hasRelationWith(arg1Id, arg2Id)){
-				if(print) System.out.println("Returning false for True Negative because the entities have a relation");
-				return false;
-			}
-			else{
-				if(KB.participatesInRelationAsArg1(arg1Id, extractionRel)){
-					if(isProbablyNegative(KB,arg1,arg2,arg1Id,arg2Id,extractionRel,sentence)){
-						if(print) System.out.println("Returning true for True Negative because is Probably Negative rreturned true");
-						return true;
-					}
+		}
+		
+		if(KB.hasRelationWith(arg1Id, arg2Id)){
+			if(print) System.out.println("Returning false for True Negative because the entities have a relation");
+			return false;
+		}
+		else{
+			if(KB.participatesInRelationAsArg1(arg1Id, extractionRel)){
+				if(isProbablyNegative(KB,arg1,arg2,arg1Id,arg2Id,extractionRel,sentence)){
+					if(print) System.out.println("Returning true for True Negative because is Probably Negative rreturned true");
+					return true;
 				}
 			}
 		}
