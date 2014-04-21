@@ -31,13 +31,10 @@ public class TrainModel {
 		if(featureFilePaths.size() != modelFiles.size()){
 			throw new IllegalArgumentException("Number of feature files must be equal to number of output model files");
 		}
-		
 		//run feedback loop first
 		if(feedback){
 			
 		}
-		
-		
 		//for each input feature training file
 		for(int i =0; i < featureFilePaths.size(); i++){
 			String featureFile = featureFilePaths.get(i);
@@ -67,8 +64,6 @@ public class TrainModel {
 				Train.train(modelFile.getAbsoluteFile().toString());
 			}
 		}
-
-		
 	}
 
 }
