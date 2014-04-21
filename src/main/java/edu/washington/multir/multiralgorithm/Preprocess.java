@@ -42,11 +42,11 @@ public class Preprocess {
 	 */
 	public static void main(String[] args) 
 	throws IOException {
-            run(args[0],args[1],false);
+            run(args[0],args[1],null);
 	}
 	
 	
-	public static void run(String featureFile, String trainDir, boolean random) throws IOException{
+	public static void run(String featureFile, String trainDir, Random r) throws IOException{
     	long start = System.currentTimeMillis();
     	
     	printMemoryStatistics();
@@ -64,7 +64,7 @@ public class Preprocess {
 			System.out.println("PREPROCESSING TRAIN FEATURES");
 		{
 			String output1 = outDir + File.separatorChar + "train";
-			convertFeatureFileToMILDocument(trainFile, output1, mapping,random);
+			convertFeatureFileToMILDocument(trainFile, output1, mapping,r);
 		}
 		
 			System.out.println("FINISHED PREPROCESSING TRAIN FEATURES");
@@ -172,7 +172,7 @@ public class Preprocess {
 	 * 			  relevant relations and features
 	 * @throws IOException
 	 */
-	private static void convertFeatureFileToMILDocument(String input, String output, Mappings m, boolean random) throws IOException {
+	private static void convertFeatureFileToMILDocument(String input, String output, Mappings m, Random r) throws IOException {
 		//open input and output streams
 		DataOutputStream os = new DataOutputStream
 			(new BufferedOutputStream(new FileOutputStream(output)));
@@ -246,8 +246,8 @@ public class Preprocess {
 	    //randomize or not
 	    List<Integer> intKeys = new ArrayList<>(relationMentionMap.keySet());
 	    
-	    if(random){
-	    	Collections.shuffle(intKeys, new Random(System.currentTimeMillis()));
+	    if(r != null){
+	    	Collections.shuffle(intKeys,r);
 	    }
 	    
 	    for(Integer intKey : intKeys){
